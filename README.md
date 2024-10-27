@@ -77,7 +77,7 @@ The generated inpainting images were then used as input for the **CNN** and **SV
 - Perform cross-validation to assess the robustness of the system.
 
 ### References
-- [WikiArt Refined Dataset](https://www.kaggle.com/datasets/danielmao2019/deepfakeart?resource=download) or [This](https://github.com/h-aboutalebi/DeepfakeArt)
+- [Kaggle Deepfake Challenge Dataset](https://www.kaggle.com/datasets/danielmao2019/deepfakeart?resource=download) or [This](https://github.com/h-aboutalebi/DeepfakeArt)
 - [Stable Diffusion 2 Model](https://huggingface.co/stabilityai/stable-diffusion-2-inpainting)
 
 ## Installation
