@@ -35,7 +35,7 @@ The solution consists of three main components:
 ## Workflow
 
 ### 1. Data Collection
-The dataset for this project was sourced from [WikiArt](https://github.com/cs-chan/ArtGAN/blob/master/data/artist/classes). The original images from this dataset were used as the foundation for generating altered images. To create the inpainting category, we employed the [Stable Diffusion 2](https://huggingface.co/stabilityai/stable-diffusion-2-inpainting) model, our GAN generator, to produce synthetic images.
+The dataset for this project was sourced from [Kaggle Deepfake Challenge]([https://github.com/cs-chan/ArtGAN/blob/master/data/artist/classes](https://www.kaggle.com/datasets/danielmao2019/deepfakeart?resource=download)). The original images from this dataset were used as the foundation for generating altered images. To create the inpainting category, we employed the [Stable Diffusion 2](https://huggingface.co/stabilityai/stable-diffusion-2-inpainting) model, our GAN generator, to produce synthetic images.
 
 Each record in the inpainting category consists of three images:
 
@@ -77,7 +77,7 @@ The generated inpainting images were then used as input for the **CNN** and **SV
 - Perform cross-validation to assess the robustness of the system.
 
 ### References
-- [WikiArt Refined Dataset](https://drive.google.com/file/d/1vTChp3nU5GQeLkPwotrybpUGUXj12BTK/view) or [This](https://github.com/cs-chan/ArtGAN/blob/master/data/artist/classes)
+- [WikiArt Refined Dataset]([https://drive.google.com/file/d/1vTChp3nU5GQeLkPwotrybpUGUXj12BTK/view](https://www.kaggle.com/datasets/danielmao2019/deepfakeart?resource=download)) or [This](https://github.com/h-aboutalebi/DeepfakeArt)
 - [Stable Diffusion 2 Model](https://huggingface.co/stabilityai/stable-diffusion-2-inpainting)
 
 ## Installation
