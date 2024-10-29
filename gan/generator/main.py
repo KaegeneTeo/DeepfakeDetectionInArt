@@ -1,126 +1,55 @@
-from PIL import Image, ImageDraw
-from PIL import ImageFont
-import random
+import torch
+from PIL import Image
 import os
-import numpy as np
+from tools import get_shuffled_file_paths, mask_image, compose_side_by_side
+from diffusers import StableDiffusionInpaintPipeline
 
-def get_shuffled_file_paths(directory):
-    file_paths = []
+# Load the Stable Diffusion Inpainting model
+pipe = StableDiffusionInpaintPipeline.from_pretrained(
+    "stabilityai/stable-diffusion-2-inpainting", torch_dtype=torch.float32
+)
+pipe.to("cpu")
 
-    # Walk through the directory and collect all file paths
-    for root, dirs, files in os.walk(directory):
-        for file in files:
-            file_path = os.path.join(root, file)
-            if os.path.isfile(file_path):
-                file_paths.append(file_path)
+# Set your dataset directory and output directory
+directory = "C:/Users/kaege/OneDrive/Desktop/SMU/Year 3/Project/similar/inpainting"  # Input images
+output_dir = "C:/Users/kaege/DeepfakeDetectionInArt/gan/generator/output"  # Output images
+list_files = get_shuffled_file_paths(directory)
 
-    # Shuffle the list of file paths
-    random.shuffle(file_paths)
+count = 20000
+print(list_files[0])
 
-    # Limit the number of files processed if a limit is provided
-    
+# Process each image in the dataset
+for image_address in list_files:
+    print(image_address)
+    if not image_address.lower().endswith(".png"):
+        continue
 
-    return file_paths[:10]
-
-
-def mask_random(image_path, output_path="C:/Users/cedri/Downloads/PyTorch-GAN_2/PyTorch-GAN/implementations/cyclegan/diffuser_images"):  ## change path 
     # Open the image
-    image = Image.open(image_path)
+    image = Image.open(image_address).convert("RGB")
     width, height = image.size
+    name = os.path.join(output_dir, str(count))  # Create output folder for each image
+    os.makedirs(name, exist_ok=True)
 
-    # Create a new black or white image, depending on the random choice
-    new_image = Image.new("RGB", (width, height))
-    draw = ImageDraw.Draw(new_image)
+    # Apply different masking techniques
+    mask_types = ['random_patch', 'upper_white', 'upper_black', 'left_white', 'left_black']
+    for mask_type in mask_types:
+        output_path = os.path.join(name, f"mask_{mask_type}.png")
 
-    choice = random.choice(["upper_white", "upper_black", "left_white", "left_black", "random_patch"])
-    if choice == "random_patch":
-        percentage=random.randint(40, 60)
-        new_image = Image.new("RGB", (width, height), color=(0, 0, 0))
-        draw = ImageDraw.Draw(new_image)
-        total_white_area = int((width * height) * (percentage / 100))
-        white_area = 0
-        while white_area < total_white_area:
-            # Generate random position and size for the white patch
-            x, y = random.randint(0, width - 1), random.randint(0, height - 1)
-            w, h = random.randint(width // 16, width // 4+1), random.randint(height // 16, height // 4+1)        
-            # Draw the white patch
-            draw.rectangle([x, y, x + w, y + h], fill=(255, 255, 255))   
-            # Update the current area of white patches
-            white_area = sum([1 for pixel in new_image.getdata() if pixel == (255, 255, 255)])
-    elif choice == "upper_white":
-        draw.polygon([(0, 0), (width, 0), (width, height)], fill=(255, 255, 255))
-        draw.polygon([(0, 0), (0, height), (width, height)], fill=(0, 0, 0))
-    elif choice == "upper_black":
-        draw.polygon([(0, 0), (width, 0), (width, height)], fill=(0, 0, 0))
-        draw.polygon([(0, 0), (0, height), (width, height)], fill=(255, 255, 255))
-    elif choice == "left_white":
-        draw.polygon([(0, 0), (width, 0), (0, height)], fill=(0, 0, 0))
-        draw.polygon([(0, height), (width, height), (width, 0)], fill=(255, 255, 255))
-    elif choice == "left_black":
-        draw.polygon([(0, 0), (width, 0), (0, height)], fill=(255, 255, 255))
-        draw.polygon([(0, height), (width, height), (width, 0)], fill=(0, 0, 0))
-    print(choice)
-        
-    # Save the masked image
-    new_image.save(os.path.join(output_path, os.path.basename(image_path)))
+        # Apply the corresponding mask type using `mask_image`
+        masked_image = mask_image(image_address, mask_type, output_path).convert("RGB")
 
-    return new_image
+        # Inpainting prompt
+        prompt = "generate a painting compatible with the rest of the image"
 
+        # Perform inpainting using the masked image and original image
+        image_inpainting = pipe(prompt=prompt, image=image.resize((512, 512)), mask_image=masked_image).images[0]
 
-def mask_top_half(image_path, output_path="C:/Users/cedri/Downloads/PyTorch-GAN_2/PyTorch-GAN/implementations/cyclegan/diffuser_images"):  ## change path
-    # Open the image 
-    image = Image.open(image_path)
+        # Save results with appropriate labeling
+        compose_side_by_side(image_inpainting.resize((width, height)), image.resize((width, height)),
+                             os.path.join(name, f"group_{mask_type}.png"))
+        image_inpainting.resize((width, height)).save(os.path.join(name, f"inpainting_{mask_type}.png"))
+        image.resize((width, height)).save(os.path.join(name, f"original_{mask_type}.png"))
 
-    # Create a new image with the same size as the input image
-    width, height = image.size
-    masked_image = Image.new('RGB', (width, height))
-
-    # Draw a black rectangle on the top half and a white rectangle on the bottom half
-    draw = ImageDraw.Draw(masked_image)
-    black_color = (0, 0, 0)  # Black
-    white_color = (255, 255, 255)  # White
-    draw.rectangle([(0, 0), (width, height // 2)], fill=black_color)
-    draw.rectangle([(0, height // 2), (width, height)], fill=white_color)
-
-    # Save the masked image
-    masked_image.save(output_path)
-
-    # Return the PIL image object
-    return masked_image
-
-def compose_side_by_side(left_image, right_image, output_path, margin=10):
-    left_label = "inpainting"
-    right_label = "original"
-    width, height = left_image.size
-    new_width = width * 2 + margin
-    new_height = height + 40
-    font = ImageFont.truetype("arial.ttf", size=30)
-
-    # Create a new image with the combined dimensions
-    # Calculate the dimensions of the new image
-    width, height = left_image.size
-    new_width = width * 2 + margin
-    hiegt_increase = 40
-    new_height = height + hiegt_increase
-
-    # Create a new image with the combined dimensions
-    combined_image = Image.new("RGB", (new_width, new_height), color=(255, 255, 255))
-
-    # Paste the two input images side by side with a margin
-    combined_image.paste(left_image, (0, 0))
-    combined_image.paste(right_image, (width + margin, 0))
-
-    # Add text labels below the images
-    draw = ImageDraw.Draw(combined_image)
-    left_text_bbox = draw.textbbox((0, 0), left_label, font=font)
-    left_text_width, left_text_height = left_text_bbox[2] - left_text_bbox[0], left_text_bbox[3] - left_text_bbox[1]
-    right_text_bbox = draw.textbbox((0, 0), right_label, font=font)
-    right_text_width, right_text_height = right_text_bbox[2] - right_text_bbox[0], right_text_bbox[3] - right_text_bbox[1]
-    draw.text(((width - left_text_width) // 2, height), left_label, font=font, fill=(0, 0, 0))
-    draw.text((width//2 +(width * 2 + margin - right_text_width/2) // 2, height), right_label, font=font, fill=(0, 0, 0))
-
-    # Save the composite image
-    combined_image.save(output_path)
-
-    # Return the PIL image object
-    return combined_image
+    count += 1
+    if count > 20000 + 1500:  # Limit the total processed images
+        break
