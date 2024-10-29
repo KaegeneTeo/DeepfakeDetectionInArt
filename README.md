@@ -40,7 +40,14 @@ Each record in the inpainting category consists of 4 images:
 - **Masking Images**: A black-and-white image indicating the areas of the original image that were inpainted (white areas represent masked regions).
 - **Group images**: Comparison of the inpainted image and the original in a side-by-side fashion.
 
-#### Inpainting Process
+### 2. Preprocessing
+- Resize and normalize the images.
+- Augment the dataset to enhance model generalization.
+
+### 3. Data Augmentation & Synthetic Image Generation (Stable Diffusion V2)
+To create realistic altered images, we used Stable Diffusion V2 to generate synthetic inpainted images based on five types of masked versions of each original image. This approach enables the creation of diverse and challenging deepfake samples, enhancing model robustness for the CNN and SVM components.
+
+Inpainting Process
 The prompt used for generating the inpainting image is:  
 *"Generate a painting compatible with the rest of the image."*
 
@@ -50,14 +57,6 @@ The kaggle dataset comprises over **5,063 records** of original images. We appli
 - **Random Masking**: Randomly selecting parts of the source image to mask.
 
 The generated inpainting images, totaling 25,315 (5,063 original images with 5 different types of masking applied to each), were then used as input for the CNN and SVM models to enhance the detection of deepfakes.
-
-### 2. Preprocessing
-- Resize and normalize the images.
-- Augment the dataset to enhance model generalization.
-
-### 3. Data Augmentation and Adversarial Training (GAN)
-- Train a GAN to generate synthetic deepfake images.
-- Use these synthetic images to improve the training of the CNN and SVM.
 
 ### 4. Classification (SVM)
 - Train an SVM model on the features extracted by the CNN.
