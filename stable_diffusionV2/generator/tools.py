@@ -38,16 +38,16 @@ def mask_image(image_path, mask_type, output_path="C:/Users/kaege/DeepfakeDetect
             draw.rectangle([x, y, x + w, y + h], fill=(255, 255, 255))
             # Update the current area of white patches
             white_area = sum([1 for pixel in new_image.getdata() if pixel == (255, 255, 255)])
-    elif mask_type == "upper_white":
+    elif mask_type == "top_right_white":
         draw.polygon([(0, 0), (width, 0), (width, height)], fill=(255, 255, 255))  # Upper half white
         draw.polygon([(0, 0), (0, height), (width, height)], fill=(0, 0, 0))  # Lower half black
-    elif mask_type == "upper_black":
+    elif mask_type == "top_right_black":
         draw.polygon([(0, 0), (width, 0), (width, height)], fill=(0, 0, 0))  # Upper half black
         draw.polygon([(0, 0), (0, height), (width, height)], fill=(255, 255, 255))  # Lower half white
-    elif mask_type == "left_white":
+    elif mask_type == "top_left_white":
         draw.polygon([(0, 0), (width, 0), (0, height)], fill=(0, 0, 0))  # Left half white
         draw.polygon([(0, height), (width, height), (width, 0)], fill=(255, 255, 255))  # Right half black
-    elif mask_type == "left_black":
+    elif mask_type == "top_left_black":
         draw.polygon([(0, 0), (width, 0), (0, height)], fill=(255, 255, 255))  # Left half black
         draw.polygon([(0, height), (width, height), (width, 0)], fill=(0, 0, 0))  # Right half white
 
