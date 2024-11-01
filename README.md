@@ -1,9 +1,9 @@
 # IS424G2T32024
 
-# Deepfake Detection Using CNN, SVM, and GAN
+# Deepfake Detection Using CNN, SVM, and Stable Diffusion
 
 ## Project Overview
-This project aims to develop a robust system for detecting deepfake images of the inpainted class by combining three powerful machine learning models: Convolutional Neural Network (CNN), Support Vector Machine (SVM), and Generative Adversarial Network (GAN). The goal is to create a multi-model approach that leverages the strengths of each technique to improve the accuracy and reliability of deepfake detection.
+This project aims to develop a robust system for detecting deepfake images of the inpainted class by combining three powerful machine learning models: Convolutional Neural Network (CNN), Support Vector Machine (SVM), and Stable Diffusion. The goal is to create a multi-model approach that leverages the strengths of each technique to improve the accuracy and reliability of deepfake detection.
 
 **Team Members**: Ying Xuan, Bryan, Zhi You, Zhi Xuan, Cedric, Kaegene, Hao Tian, Hong Teng
 
@@ -14,8 +14,8 @@ With the rapid advancement of AI, deepfake technology has made it possible to ge
 
 The solution consists of three main components:
 
-1. **Stable Diffusion v2 (Image Generation)**:
-   - Stable Diffusion v2 is used to generate inpainted images by filling in masked areas of source images, creating synthetic alterations that serve as deepfakes for training.
+1. **Stable Diffusion (Image Generation)**:
+   - Stable Diffusion is used to generate inpainted images by filling in masked areas of source images, creating synthetic alterations that serve as deepfakes for training.
    - The inpainting model produces images that look realistic, yet contain specific alterations, which are essential for training the detection system.
 
 2. **Convolutional Neural Network (CNN)**:
