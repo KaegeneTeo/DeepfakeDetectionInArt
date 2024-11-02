@@ -1,7 +1,7 @@
 import os
 
 # Define the base directory where all the folders are located
-base_directory = "C:/Users/kaege/OneDrive/Desktop/SMU/Year 3/Project/similar/inpainting"
+base_directory = "/common/home/users/h/haotian.hu.2021/diffuser/similar/inpainting"
 
 # Loop through each subdirectory in the base directory
 for folder_name in os.listdir(base_directory):

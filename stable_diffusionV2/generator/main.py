@@ -8,11 +8,11 @@ from diffusers import StableDiffusionInpaintPipeline
 pipe = StableDiffusionInpaintPipeline.from_pretrained(
     "stabilityai/stable-diffusion-2-inpainting", torch_dtype=torch.float32
 )
-pipe.to("cpu")
+pipe.to("cuda")
 
 # Set your dataset directory and output directory
-directory = "C:/Users/kaege/OneDrive/Desktop/SMU/Year 3/Project/similar/inpainting"  # Input images
-output_dir = "C:/Users/kaege/DeepfakeDetectionInArt/stable_diffusionV2/generator/output"  # Output images
+directory = "/common/home/users/h/haotian.hu.2021/diffuser/similar/inpainting"  # Input images
+output_dir = "/common/home/users/h/haotian.hu.2021/DeepfakeDetectionInArt/stable_diffusionV2/generator/output"  # Output images
 list_files = get_shuffled_file_paths(directory)
 
 count = 20000
@@ -34,7 +34,7 @@ for image_address in list_files:
     image.resize((width, height)).save(os.path.join(name, "original.png"))
 
     # Apply different masking techniques
-    mask_types = ['random_patch', 'upper_white', 'upper_black', 'left_white', 'left_black']
+    mask_types = ['random_patch', 'top_right_white', 'top_right_black', 'top_left_white', 'top_left_black']
     for mask_type in mask_types:
         output_path = os.path.join(name, f"mask_{mask_type}.png")
 
