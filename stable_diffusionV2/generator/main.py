@@ -1,29 +1,34 @@
 import torch
 from PIL import Image
 import os
-from tools import get_shuffled_file_paths, mask_image, compose_side_by_side
+from tools import get_file_paths, mask_image, compose_side_by_side, load_file_paths
 from diffusers import StableDiffusionInpaintPipeline
 
-# Load the Stable Diffusion Inpainting model
+# Check if GPU is available
+device = "cuda" if torch.cuda.is_available() else "cpu"
+print(f"Using device: {device}")
+
+# Load the Stable Diffusion Inpainting model and move it to GPU
 pipe = StableDiffusionInpaintPipeline.from_pretrained(
     "stabilityai/stable-diffusion-2-inpainting", torch_dtype=torch.float32
 )
-pipe.to("cuda")
+pipe.to(device)
 
 # Set your dataset directory and output directory
-directory = "/common/home/users/h/haotian.hu.2021/diffuser/similar/inpainting"  # Input images
-output_dir = "/common/home/users/h/haotian.hu.2021/DeepfakeDetectionInArt/stable_diffusionV2/generator/output"  # Output images
-list_files = get_shuffled_file_paths(directory)
-
-count = 20000
-print(list_files[0])
+directory = "/common/home/users/b/bryanchua.2022/scratchDirectory/sendgpu/inpainting"  # Input images
+output_dir = "/common/home/users/b/bryanchua.2022/scratchDirectory/sendgpu/stable_diffusionV2/generator/output"  # Output images
+# loads file paths into a list and writes to a txt file
+if os.path.exists("/common/home/users/b/bryanchua.2022/scratchDirectory/sendgpu/stable_diffusionV2/generator/files.txt"):
+    # files txt file exists, initalize list using files txt
+    list_files = load_file_paths("/common/home/users/b/bryanchua.2022/scratchDirectory/sendgpu/stable_diffusionV2/generator/files.txt")
+else:
+    list_files = get_file_paths(directory)
+print(list_files)
+count = 1
 
 # Process each image in the dataset
 for image_address in list_files:
     print(image_address)
-    if not image_address.lower().endswith(".png"):
-        continue
-
     # Open the image
     image = Image.open(image_address).convert("RGB")
     width, height = image.size
@@ -34,7 +39,7 @@ for image_address in list_files:
     image.resize((width, height)).save(os.path.join(name, "original.png"))
 
     # Apply different masking techniques
-    mask_types = ['random_patch', 'top_right_white', 'top_right_black', 'top_left_white', 'top_left_black']
+    mask_types = ['random_patch', 'upper_white', 'upper_black', 'left_white', 'left_black']
     for mask_type in mask_types:
         output_path = os.path.join(name, f"mask_{mask_type}.png")
 
@@ -53,6 +58,3 @@ for image_address in list_files:
                              os.path.join(name, f"group_{mask_type}.png"))
 
     count += 1
-    if count > 20000 + 1500:  # Limit the total processed images
-        break
-

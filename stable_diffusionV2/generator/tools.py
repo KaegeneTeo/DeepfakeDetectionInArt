@@ -3,18 +3,28 @@ from PIL import ImageFont
 import random
 import os
 
-def get_shuffled_file_paths(directory):
+def get_file_paths(directory):
     file_paths = []
-    for root, dirs, files in os.walk(directory):
-        for file in files:
-            file_path = os.path.join(root, file)
-            if os.path.isfile(file_path):
-                file_paths.append(file_path)
-    # Shuffle the list of file paths
-    random.shuffle(file_paths)
+    with open("/common/home/users/b/bryanchua.2022/scratchDirectory/sendgpu/stable_diffusionV2/generator/files.txt", 'a') as f:
+        for root, dirs, files in os.walk(directory):
+            for file in files:
+                if file.lower() == "original.png":
+                    file_path = os.path.join(root, file)
+                    if os.path.isfile(file_path):
+                        file_paths.append(file_path)
+                        f.write(file_path + '\n')  # Write the path to the file
+
     return file_paths
 
-def mask_image(image_path, mask_type, output_path):
+
+def load_file_paths(input_file):
+    if os.path.exists(input_file):
+        with open(input_file, 'r') as f:
+            return [line.strip() for line in f.readlines()]
+    return []
+
+
+def mask_image(image_path, mask_type, output_path="/common/home/users/b/bryanchua.2022/scratchDirectory/sendgpu/stable_diffusionV2/generator/output"):
     # Open the image
     image = Image.open(image_path)
     width, height = image.size
@@ -62,7 +72,7 @@ def compose_side_by_side(left_image, right_image, output_path, margin=10):
     new_width = width * 2 + margin
     hiegt_increase = 40
     new_height = height + hiegt_increase
-    font = ImageFont.truetype("/common/home/users/h/haotian.hu.2021/DeepfakeDetectionInArt/stable_diffusionV2/generator/arial.ttf", size=30)
+    font = ImageFont.truetype("/common/home/users/b/bryanchua.2022/scratchDirectory/sendgpu/stable_diffusionV2/generator/ARIAL.TTF", size=30)
 
     # Create a new image with the combined dimensions
     combined_image = Image.new("RGB", (new_width, new_height), color=(255, 255, 255))
