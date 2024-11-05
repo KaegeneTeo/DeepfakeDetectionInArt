@@ -24,7 +24,7 @@ def load_file_paths(input_file):
     return []
 
 
-def mask_image(image_path, mask_type, output_path="/common/home/users/b/bryanchua.2022/scratchDirectory/sendgpu/stable_diffusionV2/generator/output"):
+def mask_image(image_path, mask_type, output_path="/common/home/users/b/bryanchua.2022/scratchDirectory/sendgpu/stable_diffusionV2/generator/tmp2"):
     # Open the image
     image = Image.open(image_path)
     width, height = image.size
@@ -72,7 +72,7 @@ def compose_side_by_side(left_image, right_image, output_path, margin=10):
     new_width = width * 2 + margin
     hiegt_increase = 40
     new_height = height + hiegt_increase
-    font = ImageFont.truetype("/common/home/users/b/bryanchua.2022/scratchDirectory/sendgpu/stable_diffusionV2/generator/ARIAL.TTF", size=30)
+    font = ImageFont.truetype("/common/home/users/b/bryanchua.2022/scratchDirectory/sendgpu/stable_diffusionV2/generator/arial.ttf", size=30)
 
     # Create a new image with the combined dimensions
     combined_image = Image.new("RGB", (new_width, new_height), color=(255, 255, 255))

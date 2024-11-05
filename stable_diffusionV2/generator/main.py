@@ -39,7 +39,7 @@ for image_address in list_files:
     image.resize((width, height)).save(os.path.join(name, "original.png"))
 
     # Apply different masking techniques
-    mask_types = ['random_patch', 'upper_white', 'upper_black', 'left_white', 'left_black']
+    mask_types = ['random_patch', 'top_right_white', 'top_right_black', 'top_left_white', 'top_left_black']
     for mask_type in mask_types:
         output_path = os.path.join(name, f"mask_{mask_type}.png")
 
