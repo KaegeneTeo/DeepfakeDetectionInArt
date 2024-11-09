@@ -11,7 +11,7 @@ This project aims to develop a robust system for detecting deepfake images of th
 This is the link to the [original dataset](https://www.kaggle.com/datasets/danielmao2019/deepfakeart?resource=download) 
 
 ## Enhanced Dataset
-The dataset that we generated based on the original images from the kaggle dataset is [here](https://www.dropbox.com/scl/fi/2qxop3lzxxat4rn43xpi4/sendyx.zip?rlkey=58lz4x1zh4datuf3a24wtf0kt&e=1&st=jdjuvrsm&dl=0)
+The dataset that we generated based on the original images from the kaggle dataset is [here](https://www.dropbox.com/scl/fi/2qxop3lzxxat4rn43xpi4/sendyx.zip?rlkey=58lz4x1zh4datuf3a24wtf0kt&e=1&st=jdjuvrsm&dl=0](https://www.dropbox.com/scl/fi/s6wczyiffsc563w6dwdvf/final.zip?rlkey=pw85v9rrq4otcuqlkueoaeij5&st=17qwdrqm&dl=0))
 
 ## Diffusion Model
 The diffusion model we used was modified based on [this model](https://huggingface.co/stabilityai/stable-diffusion-2-inpainting)
