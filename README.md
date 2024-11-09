@@ -8,7 +8,9 @@ This project aims to develop a robust system for detecting deepfake images of th
 **Team Members**: Ying Xuan, Bryan, Zhi You, Zhi Xuan, Cedric, Kaegene, Hao Tian, Hong Teng
 
 ## Dataset
-This is the link to the [original dataset](https://www.kaggle.com/datasets/danielmao2019/deepfakeart?resource=download)
+This is the link to the [original dataset](https://www.kaggle.com/datasets/danielmao2019/deepfakeart?resource=download) 
+
+## Diffusion Model
 The diffusion model we used was modified based on [this model](https://huggingface.co/stabilityai/stable-diffusion-2-inpainting)
 
 ## Installation
