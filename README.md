@@ -30,4 +30,12 @@ To run this project, you'll need the following dependencies:
 You can install the required libraries using:
 ```bash
 pip install scikit-learn opencv-python-headless numpy pandas matplotlib pillow diffusers
+```
+
+## How to Use
+1. Download the original dataset and the enhanced dataset
+2. Run the preprocessing_and_eda notebook. It will extract the original and inpainted images from the kaggle dataset, as well as the enhanced dataset
+3. Use the CNN_training notebook to train the CNN model
+4. Load the best performing weights in the SVM notebook, train the CNN-SVM model
+
 
