@@ -5,7 +5,7 @@
 ## Project Overview
 This project aims to develop a robust system for detecting deepfake images of the inpainted class by combining three powerful machine learning models: Convolutional Neural Network (CNN), Support Vector Machine (SVM), and Stable Diffusion. The goal is to create a multi-model approach that leverages the strengths of each technique to improve the accuracy and reliability of deepfake detection.
 
-**Team Members**: Ying Xuan, Bryan, Zhi You, Zhi Xuan, Cedric, Kaegene, Hao Tian, Hong Teng
+**Team Members**: Ying Xuan, Bryan, Zi You, Zhi Xuan, Cedric, Kaegene, Hao Tian, Hong Teng
 
 ## Dataset
 This is the link to the [original dataset](https://www.kaggle.com/datasets/danielmao2019/deepfakeart?resource=download) 
